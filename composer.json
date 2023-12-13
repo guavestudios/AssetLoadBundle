@@ -1,6 +1,6 @@
 {
 	"name": "guave/assetload-bundle",
-	"description": "Asset Load Helper and Insert Tags for Contao 4.9+",
+	"description": "Asset Load Helper and Insert Tags for Contao 4.13+",
 	"type": "contao-bundle",
 	"license": "ISC",
 	"authors": [

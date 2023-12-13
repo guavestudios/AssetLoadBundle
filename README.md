@@ -82,7 +82,7 @@ dynamic by theme
 
 ## Deprecations
 
-The ImageHelper is now deprecated, it's recommended to use the [Contao Image Studio](https://docs.contao.org/dev/framework/image-processing/image-studio/).
+The ImageHelper is now deprecated, it's recommended to use the [Contao Image Studio][1].
 
 Define sizes in config.yml and use in contao_figure with image path or ID:
 
@@ -130,3 +130,5 @@ Define sizes dynamically in contao_figure directly:
   options: { attr: { class: 'logo-container' } }
 }) }}
 ```
+
+[1]: https://docs.contao.org/dev/framework/image-processing/image-studio/
