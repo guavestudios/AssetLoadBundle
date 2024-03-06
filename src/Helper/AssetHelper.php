@@ -20,7 +20,7 @@ class AssetHelper
         $assetPath = $filesDir . '/' . $fileName;
         $manifest = json_decode(
             file_get_contents(
-                $_SERVER['DOCUMENT_ROOT'] . '/' .$filesDir . '/dist/manifest.json'
+                $_SERVER['DOCUMENT_ROOT'] . '/' . $filesDir . '/dist/manifest.json'
             ),
             true
         );
@@ -64,7 +64,7 @@ class AssetHelper
             $resources[] = self::renderResource($resourceType, $path, $parameters);
         }
 
-        return implode("", $resources);
+        return implode('', $resources);
     }
 
     protected static function renderResource(string $type, string $path): string
@@ -95,7 +95,7 @@ class AssetHelper
             return '';
         }
 
-        if (false === file_exists($filePath)) {
+        if (!is_file($filePath)) {
             if ($silent) {
                 return '';
             }

@@ -9,8 +9,7 @@ class TwigHelper
     public static function getAnalyticsId(): ?string
     {
         global $objPage;
-        $container = System::getContainer();
-        $tagManager = $container->getParameter('googleTagManager');
+        $tagManager = System::getContainer()->getParameter('googleTagManager');
         if (empty($tagManager)) {
             return null;
         }
