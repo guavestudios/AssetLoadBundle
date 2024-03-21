@@ -2,18 +2,18 @@
 
 namespace Guave\AssetLoadBundle\Twig;
 
-use Contao\CoreBundle\Twig\Inheritance\TemplateHierarchyInterface;
 use Guave\AssetLoadBundle\Helper\TwigHelper;
 use Twig\Extension\AbstractExtension;
+use Twig\Loader\LoaderInterface;
 use Twig\TwigFunction;
 
 class TwigTemplateExtension extends AbstractExtension
 {
-    private TemplateHierarchyInterface $hierarchy;
+    private LoaderInterface $loader;
 
-    public function __construct(TemplateHierarchyInterface $hierarchy)
+    public function __construct(LoaderInterface $loader)
     {
-        $this->hierarchy = $hierarchy;
+        $this->loader = $loader;
     }
 
     public function getFunctions(): array
@@ -31,7 +31,7 @@ class TwigTemplateExtension extends AbstractExtension
             $theme = $this->getThemeSlug();
         }
 
-        $chains = $this->hierarchy->getInheritanceChains($theme);
+        $chains = $this->loader->getInheritanceChains($theme);
         if (!empty($chains) && array_key_exists($template, $chains)) {
             return array_shift($chains[$template]);
         }
