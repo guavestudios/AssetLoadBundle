@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Guave\AssetLoadBundle\Twig;
 
 use Guave\AssetLoadBundle\Helper\TwigHelper;
@@ -32,14 +34,15 @@ class TwigTemplateExtension extends AbstractExtension
         }
 
         $chains = $this->loader->getInheritanceChains($theme);
-        if (!empty($chains) && array_key_exists($template, $chains)) {
+
+        if (!empty($chains) && \array_key_exists($template, $chains)) {
             return array_shift($chains[$template]);
         }
 
         return $template;
     }
 
-    public function getThemeSlug(): ?string
+    public function getThemeSlug(): string|null
     {
         global $objPage;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Guave\AssetLoadBundle\DependencyInjection;
 
 use Exception;
@@ -17,7 +19,7 @@ class GuaveAssetLoadExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../../config')
+            new FileLocator(__DIR__.'/../../config')
         );
         $loader->load('services.yaml');
     }
