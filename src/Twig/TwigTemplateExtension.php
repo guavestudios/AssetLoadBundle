@@ -6,17 +6,17 @@ namespace Guave\AssetLoadBundle\Twig;
 
 use Contao\CoreBundle\Twig\Inheritance\TemplateHierarchyInterface;
 use Guave\AssetLoadBundle\Helper\TwigHelper;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Filesystem\Path;
+use Twig\Extension\AbstractExtension;
+use Twig\Loader\LoaderInterface;
 use Twig\TwigFunction;
 
-class TwigTemplateExtension extends \Twig\Extension\AbstractExtension
+class TwigTemplateExtension extends AbstractExtension
 {
-    private TemplateHierarchyInterface $hierarchy;
+    private LoaderInterface $loader;
 
-    public function __construct(TemplateHierarchyInterface $hierarchy)
+    public function __construct(LoaderInterface $loader)
     {
-        $this->hierarchy = $hierarchy;
+        $this->loader = $loader;
     }
 
     public function getFunctions()
@@ -33,7 +33,7 @@ class TwigTemplateExtension extends \Twig\Extension\AbstractExtension
         if (!$theme) {
             $theme = $this->getThemeSlug();
         }
-        $chains = $this->hierarchy->getInheritanceChains($theme);
+        $chains = $this->loader->getInheritanceChains($theme);
 
         if (!empty($chains) && key_exists($template, $chains)) {
             return array_shift($chains[$template]);
