@@ -12,9 +12,6 @@ use Guave\AssetLoadBundle\GuaveAssetLoadBundle;
 
 class Plugin implements BundlePluginInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getBundles(ParserInterface $parser): array
     {
         return [
