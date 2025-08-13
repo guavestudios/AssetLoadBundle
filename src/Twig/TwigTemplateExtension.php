@@ -21,8 +21,8 @@ class TwigTemplateExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('dynamic_template_path', [$this, 'getDynamicThemePath']),
-            new TwigFunction('theme_slug', [$this, 'getThemeSlug']),
+            new TwigFunction('dynamic_template_path', $this->getDynamicThemePath(...)),
+            new TwigFunction('theme_slug', $this->getThemeSlug(...)),
             new TwigFunction('analytics_id', [TwigHelper::class, 'getAnalyticsId']),
         ];
     }

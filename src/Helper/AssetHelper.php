@@ -28,48 +28,49 @@ class AssetHelper
     /**
      * @throws Exception
      */
-    public static function loadJsViaEntrypoints(string $entrypoint, array $parameters = []): string
+    public static function loadJsViaEntrypoints(string $entrypoint): string
     {
-        return self::loadEntrypoint($entrypoint, 'js', $parameters);
+        return self::loadEntrypoint($entrypoint, 'js');
     }
 
     /**
      * @throws Exception
      */
-    public static function loadCssViaEntrypoints(string $entrypoint, array $parameters = []): string
+    public static function loadCssViaEntrypoints(string $entrypoint): string
     {
-        return self::loadEntrypoint($entrypoint, 'css', $parameters);
+        return self::loadEntrypoint($entrypoint, 'css');
     }
 
-    public static function loadEntrypoint(string $entrypoint, string $resourceType, array $parameters = []): string
+    public static function loadEntrypoint(string $entrypoint, string $resourceType): string
     {
         $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         $assetPath = System::getContainer()->getParameter('contao.localconfig')['assetPath'];
         $path = $rootDir.'/'.$assetPath.'/dist/entrypoints.json';
 
-        if (!file_exists($path)) {
+        if (!is_file($path)) {
             throw new RuntimeException('entrypoints.json not found. did you run the build?');
         }
 
         $entrypoints = json_decode(file_get_contents($path), true);
 
         if (!isset($entrypoints['entrypoints'][$entrypoint][$resourceType])) {
-            return "<!-- WARNING: {$entrypoint} not found in entrypoints.json for {$resourceType} -->";
+            return "<!-- WARNING: $entrypoint not found in entrypoints.json for $resourceType -->";
         }
 
         $resources = [];
 
         foreach ($entrypoints['entrypoints'][$entrypoint][$resourceType] as $path) {
-            $resources[] = self::renderResource($resourceType, $path, $parameters);
+            $resources[] = self::renderResource($resourceType, $path);
         }
 
         return implode('', $resources);
     }
 
-    public static function loadSvg(string $filePath, string $class = '', bool $silent = false)
+    public static function loadSvg(string $filePath, string $class = '', bool $silent = false): bool|string
     {
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         $filePath = $filePath[0] === '/' ? $filePath : '/'.$filePath;
-        $filePath = TL_ROOT.$filePath;
+        $filePath = $rootDir.$filePath;
 
         if ($filePath === '' || !isset($filePath)) {
             return '';
@@ -86,7 +87,7 @@ class AssetHelper
         if ($class) {
             $svg = file_get_contents($filePath);
             $dom = new DOMDocument();
-            // this is necessary, because for some reason DOMDocument can't handle the truth!!! I mean SVG ;)
+            // this is necessary because for some reason DOMDocument can't handle the truth!!! I mean SVG ;)
             libxml_use_internal_errors(true);
             $dom->loadHTML($svg);
 
@@ -105,20 +106,15 @@ class AssetHelper
     {
         $hash = System::getContainer()->getParameter('contao.localconfig')['gitHash'];
 
+        $version = '';
         if ($hash) {
             $version = '?version='.$hash;
-        } else {
-            $version = '';
         }
 
-        switch ($type) {
-            case 'css':
-                return '<link type="text/css" href="'.$path.$version.'" rel="stylesheet">'."\n";
-            case 'js':
-                return '<script src="'.$path.$version.'"></script>'."\n";
-
-            default:
-                return "<!-- don't know how to render '{$type}' -->\n";
-        }
+        return match ($type) {
+            'css' => '<link type="text/css" href="' . $path . $version . '" rel="stylesheet">' . "\n",
+            'js' => '<script src="' . $path . $version . '"></script>' . "\n",
+            default => '<!-- don\'t know how to render "'.$type.'" -->' . "\n",
+        };
     }
 }

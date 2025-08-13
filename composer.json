@@ -9,19 +9,20 @@
 		"source": "https://github.com/guavestudios/assetloadbundle"
 	},
 	"require": {
-		"ext-dom": "*",
 		"php": "^8.1",
+		"ext-dom": "*",
+		"ext-libxml": "*",
 		"contao/core-bundle": "^4.13 || ^5.0",
-		"symfony/config": "^5.4 || ^6.4",
-		"symfony/dependency-injection": "^5.4 || ^6.4",
-		"symfony/http-kernel": "^5.4 || ^6.4"
+		"symfony/config": "^5.4 || ^6.4 || ^7.0",
+		"symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
+		"symfony/http-kernel": "^5.4 || ^6.4 || ^7.0"
 	},
 	"require-dev": {
-		"bamarni/composer-bin-plugin": "^1.5",
-		"contao/manager-plugin": "^2.0",
-		"phpunit/phpunit": "^9.5",
+		"bamarni/composer-bin-plugin": "^1.8",
+		"contao/manager-plugin": "^2.3.1",
+		"phpunit/phpunit": "^9.6",
 		"roave/security-advisories": "dev-latest",
-		"symfony/phpunit-bridge": "^6.1"
+		"symfony/phpunit-bridge": "^5.4 || ^6.4 || ^7.0"
 	},
 	"conflict": {
 		"contao/manager-plugin": "<2.0 || >=3.0"
@@ -29,16 +30,7 @@
 	"autoload": {
 		"psr-4": {
 			"Guave\\AssetLoadBundle\\": "src/"
-		},
-		"classmap": [
-			"contao/"
-		],
-		"exclude-from-classmap": [
-			"contao/config/",
-			"contao/dca/",
-			"contao/languages/",
-			"contao/templates/"
-		]
+		}
 	},
 	"autoload-dev": {
 		"psr-4": {

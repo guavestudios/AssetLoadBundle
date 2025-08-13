@@ -14,8 +14,8 @@ class AssetLoadExtension extends AbstractExtension
     {
         return [
             new TwigFunction('assets', [AssetHelper::class, 'assets']),
-            new TwigFunction('css', [AssetHelper::class, 'loadCssViaEntrypoints']),
-            new TwigFunction('js', [AssetHelper::class, 'loadJsViaEntrypoints']),
+            new TwigFunction('css', [AssetHelper::class, 'loadCssViaEntrypoints'], ['is_safe' => ['html']]),
+            new TwigFunction('js', [AssetHelper::class, 'loadJsViaEntrypoints'], ['is_safe' => ['html']]),
             new TwigFunction('loadEntrypoint', [AssetHelper::class, 'loadEntrypoint']),
             new TwigFunction('svg', [AssetHelper::class, 'loadSvg']),
         ];

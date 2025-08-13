@@ -3,12 +3,15 @@ services:
     autoconfigure: true
     autowire: true
 
-  Guave\AssetLoadBundle\Twig\AssetLoadExtension:
+  Guave\AssetLoadBundle\:
+    resource: ../src
+    exclude: ../src/{ContaoManager,DependencyInjection}
+
+  Guave\AssetLoadBundle\Twig\:
+    resource: ../src/Twig
     tags:
       - { name: twig.extension }
 
   Guave\AssetLoadBundle\Twig\TwigTemplateExtension:
     arguments:
       - '@contao.twig.filesystem_loader'
-    tags:
-      - { name: twig.extension }
