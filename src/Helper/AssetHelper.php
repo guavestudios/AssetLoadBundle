@@ -114,9 +114,14 @@ class AssetHelper
             $version = '?version='.$hash;
         }
 
+        $isModule = false;
+        if ($type === 'js' && str_ends_with($path, '.ts')) {
+            $isModule = true;
+        }
+
         return match ($type) {
             'css' => '<link type="text/css" href="' . $path . $version . '" rel="stylesheet">' . "\n",
-            'js' => '<script src="' . $path . $version . '"></script>' . "\n",
+            'js' => '<script src="' . $path . $version . '"' . ($isModule ? ' type="module"' : '') . '></script>' . "\n",
             default => '<!-- don\'t know how to render "'.$type.'" -->' . "\n",
         };
     }
