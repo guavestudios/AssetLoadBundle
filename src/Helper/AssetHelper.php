@@ -48,6 +48,7 @@ class AssetHelper
         $pathWebpack = $rootDir.'/'.$assetPath.'/dist/entrypoints.json';
         $pathVite = $rootDir.'/'.$assetPath.'/dist/.vite/entrypoints.json';
         $path = is_file($pathWebpack) ? $pathWebpack : $pathVite;
+        $points = is_file($pathWebpack) ? 'entrypoints' : 'entryPoints';
 
         if (!is_file($path)) {
             throw new RuntimeException('entrypoints.json not found. did you run the build?');
@@ -55,13 +56,13 @@ class AssetHelper
 
         $entrypoints = json_decode(file_get_contents($path), true);
 
-        if (!isset($entrypoints['entrypoints'][$entrypoint][$resourceType])) {
+        if (!isset($entrypoints[$points][$entrypoint][$resourceType])) {
             return "<!-- WARNING: $entrypoint not found in entrypoints.json for $resourceType -->";
         }
 
         $resources = [];
 
-        foreach ($entrypoints['entrypoints'][$entrypoint][$resourceType] as $path) {
+        foreach ($entrypoints[$points][$entrypoint][$resourceType] as $path) {
             $resources[] = self::renderResource($resourceType, $path);
         }
 
