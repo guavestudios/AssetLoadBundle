@@ -45,7 +45,9 @@ class AssetHelper
     {
         $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         $assetPath = System::getContainer()->getParameter('contao.localconfig')['assetPath'];
-        $path = $rootDir.'/'.$assetPath.'/dist/entrypoints.json';
+        $pathWebpack = $rootDir.'/'.$assetPath.'/dist/entrypoints.json';
+        $pathVite = $rootDir.'/'.$assetPath.'/dist/.vite/entrypoints.json';
+        $path = is_file($pathWebpack) ? $pathWebpack : $pathVite;
 
         if (!is_file($path)) {
             throw new RuntimeException('entrypoints.json not found. did you run the build?');
