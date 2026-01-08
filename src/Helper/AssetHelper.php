@@ -28,9 +28,9 @@ class AssetHelper
     /**
      * @throws Exception
      */
-    public static function loadJsViaEntrypoints(string $entrypoint): string
+    public static function loadJsViaEntrypoints(string $entrypoint, bool $module = false): string
     {
-        return self::loadEntrypoint($entrypoint, 'js');
+        return self::loadEntrypoint($entrypoint, 'js', $module);
     }
 
     /**
@@ -41,7 +41,7 @@ class AssetHelper
         return self::loadEntrypoint($entrypoint, 'css');
     }
 
-    public static function loadEntrypoint(string $entrypoint, string $resourceType): string
+    public static function loadEntrypoint(string $entrypoint, string $resourceType, bool $module = false): string
     {
         $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         $assetPath = System::getContainer()->getParameter('contao.localconfig')['assetPath'];
@@ -63,7 +63,7 @@ class AssetHelper
         $resources = [];
 
         foreach ($entrypoints[$points][$entrypoint][$resourceType] as $path) {
-            $resources[] = self::renderResource($resourceType, $path);
+            $resources[] = self::renderResource($resourceType, $path, $module);
         }
 
         return implode('', $resources);
@@ -105,7 +105,7 @@ class AssetHelper
         return file_get_contents($filePath);
     }
 
-    protected static function renderResource(string $type, string $path): string
+    protected static function renderResource(string $type, string $path, bool $module): string
     {
         $hash = System::getContainer()->getParameter('contao.localconfig')['gitHash'];
 
@@ -115,7 +115,7 @@ class AssetHelper
         }
 
         $isModule = false;
-        if ($type === 'js' && str_ends_with($path, '.ts')) {
+        if ($module === true || ($type === 'js' && str_ends_with($path, '.ts'))) {
             $isModule = true;
         }
 
