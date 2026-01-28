@@ -27,7 +27,7 @@ class TwigTemplateExtension extends AbstractExtension
         ];
     }
 
-    public function getDynamicThemePath(string $template, string $theme = null): string
+    public function getDynamicThemePath(string $template, string|null $theme = null): string
     {
         if (!$theme) {
             $theme = $this->getThemeSlug();

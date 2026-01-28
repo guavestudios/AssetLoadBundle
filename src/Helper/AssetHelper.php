@@ -17,9 +17,9 @@ class AssetHelper
         $assetPath = $filesDir.'/'.$fileName;
         $manifest = json_decode(
             file_get_contents(
-                $_SERVER['DOCUMENT_ROOT'].'/'.$filesDir.'/dist/manifest.json'
+                $_SERVER['DOCUMENT_ROOT'].'/'.$filesDir.'/dist/manifest.json',
             ),
-            true
+            true,
         );
 
         return $manifest[$assetPath];
@@ -90,7 +90,6 @@ class AssetHelper
         if ($class) {
             $svg = file_get_contents($filePath);
             $dom = new DOMDocument();
-            // this is necessary because for some reason DOMDocument can't handle the truth!!! I mean SVG ;)
             libxml_use_internal_errors(true);
             $dom->loadHTML($svg);
 
@@ -120,9 +119,9 @@ class AssetHelper
         }
 
         return match ($type) {
-            'css' => '<link type="text/css" href="' . $path . $version . '" rel="stylesheet">' . "\n",
-            'js' => '<script src="' . $path . $version . '"' . ($isModule ? ' type="module"' : '') . '></script>' . "\n",
-            default => '<!-- don\'t know how to render "'.$type.'" -->' . "\n",
+            'css' => '<link type="text/css" href="'.$path.$version.'" rel="stylesheet">'."\n",
+            'js' => '<script src="'.$path.$version.'"'.($isModule ? ' type="module"' : '').'></script>'."\n",
+            default => '<!-- don\'t know how to render "'.$type.'" -->'."\n",
         };
     }
 }
