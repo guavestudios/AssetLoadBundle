@@ -13,11 +13,11 @@ class AssetLoadExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('assets', [AssetHelper::class, 'assets']),
-            new TwigFunction('css', [AssetHelper::class, 'loadCssViaEntrypoints'], ['is_safe' => ['html']]),
-            new TwigFunction('js', [AssetHelper::class, 'loadJsViaEntrypoints'], ['is_safe' => ['html']]),
-            new TwigFunction('loadEntrypoint', [AssetHelper::class, 'loadEntrypoint']),
-            new TwigFunction('svg', [AssetHelper::class, 'loadSvg']),
+            new TwigFunction('assets', AssetHelper::assets(...)),
+            new TwigFunction('css', AssetHelper::loadCssViaEntrypoints(...), ['is_safe' => ['html']]),
+            new TwigFunction('js', AssetHelper::loadJsViaEntrypoints(...), ['is_safe' => ['html']]),
+            new TwigFunction('loadEntrypoint', AssetHelper::loadEntrypoint(...)),
+            new TwigFunction('svg', AssetHelper::loadSvg(...)),
         ];
     }
 }
